@@ -20,7 +20,7 @@
 
       - name: Add the newly created EC2 instance(s) to the local host group (located inside the directory)
         local_action: lineinfile 
-                      dest="/tmp/hosts_zuul" 
+                      dest="/tmp/hosts" 
                       regexp={{ item.public_ip }} 
                       insertafter="[zuul]" line={{ item.public_ip }}
         with_items: "{{ ec2.instances }}"
