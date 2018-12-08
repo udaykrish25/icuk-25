@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  parameters {
+    string(name: 'EUREKA_IPADDRESS', description: 'localhost')
+  }
   tools { 
         maven 'Maven'
   }
@@ -12,6 +15,7 @@ pipeline {
     }
     stage('Build') {
       steps {
+        sh 'sed -i 's/localhost/$EUREKA_IPADDRESS/g' $WORKSPACE/src/main/resources/application.properties'
         sh 'mvn -B -DskipTests clean package'
         sh 'echo $USER'
         sh 'echo whoami'
