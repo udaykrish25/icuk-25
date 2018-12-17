@@ -17,12 +17,23 @@
                       keypair=Ec2KK
                       count=1
         register: ec2
+      
+      - name: Touch a host file
+        local_action: file
+                      path=/tmp/hosts_zuul
+                      state=absent
 
+      - name: Touch a host file
+        local_action: file
+                      path=/tmp/hosts_zuul
+                      state=touch
+                      mode="u=rw,g=r,o=r" 
+                    
       - name: Add the newly created EC2 instance(s) to the local host group (located inside the directory)
         local_action: lineinfile 
-                      dest="/tmp/hosts" 
+                      dest="/tmp/hosts_zuul" 
                       regexp={{ item.public_ip }} 
-                      insertafter="[zuul]" line={{ item.public_ip }}
+                      line="{{ item.public_ip }} ansible_ssh_common_args='-o StrictHostKeyChecking=no'"
         with_items: "{{ ec2.instances }}"
 
 
