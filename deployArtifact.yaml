@@ -1,6 +1,6 @@
 ---
 -
-  hosts: zuul
+  hosts: all
   tasks:
     -
       name: "uninstall Java JRE rpm from a local file"
